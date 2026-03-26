@@ -1,0 +1,5 @@
+# ignore env file
+/env.*
+
+# don't ignore the example env file
+!/env.example

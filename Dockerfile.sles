@@ -1,0 +1,61 @@
+# define build inputs
+ARG SLE_VER=15.7
+ARG SLE_NAME=15sp7
+
+# define derived inputs
+ARG ENV_FILE=env.${SLE_NAME}
+
+FROM registry.suse.com/bci/bci-base:${SLE_VER}
+
+# specify which inputs are used in this image
+ARG SLE_VER
+ARG SLE_NAME
+ARG ENV_FILE
+
+COPY ${ENV_FILE} .
+
+RUN \
+    source ./${ENV_FILE} \
+    [ -n "${REG_CODE}" ] || exit 1 \
+    && \
+    zypper ref \
+    && \
+    zypper install -y \
+        suseconnect-ng \
+    && \
+    if [ -n "${REG_CODE}" ]; then \
+        suseconnect -r ${REG_CODE}; \
+    fi \
+    && \
+    zypper install -y \
+        yast2-registration \
+    && \
+    if [ -n "${LTSS_CODE}" ]; then \
+        echo suseconnect -p SLES-LTSS/${SLE_VER}/x86_64 -r ${LTSS_CODE}; \
+    fi \
+    && \
+    zypper update -y -l \
+    && \
+    zypper install -y \
+        bash \
+        bzip2 \
+        curl \
+        gzip \
+        less \
+        make \
+        osc \
+        vim \
+        wget \
+        xz \
+    && \
+    zypper clean --all \
+    && \
+    if [ -n "${REG_CODE}" ]; then \
+        suseconnect --de-register || true; \
+    fi \
+    && \
+    suseconnect --clean || true;
+
+CMD ["/bin/bash"]
+
+# vim:shiftwidth=4:tabstop=4:expandtab

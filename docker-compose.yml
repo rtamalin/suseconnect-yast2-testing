@@ -1,0 +1,101 @@
+---
+
+services:
+  15sp3:
+    image: suseconnect/15sp3
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "15.3"
+        SLE_NAME: "15sp3"
+    networks:
+      - external
+    volumes:
+      - ./15sp3:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+  15sp4:
+    image: suseconnect/15sp4
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "15.4"
+        SLE_NAME: "15sp4"
+    networks:
+      - external
+    volumes:
+      - ./15sp4:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+  15sp5:
+    image: suseconnect/15sp5
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "15.5"
+        SLE_NAME: "15sp5"
+    networks:
+      - external
+    volumes:
+      - ./15sp5:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+  15sp6:
+    image: suseconnect/15sp6
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "15.6"
+        SLE_NAME: "15sp6"
+    networks:
+      - external
+    volumes:
+      - ./15sp6:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+  15sp7:
+    image: suseconnect/15sp7
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "15.7"
+        SLE_NAME: "15sp7"
+    networks:
+      - external
+    volumes:
+      - ./15sp7:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+  "16":
+    image: suseconnect/16
+    build:
+      context: .
+      dockerfile: Dockerfile.sles
+      args:
+        SLE_VER: "16.0"
+        SLE_NAME: "16"
+    networks:
+      - external
+    volumes:
+      - ./16:/work
+    command: [ "sh", "-c", "tail -f /dev/null"]
+    pre_stop:
+      - command: /usr/bin/suseconnect --de-register || true
+      
+networks:
+  external: {}
